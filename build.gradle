@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.1' apply false
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
+}
+
+allprojects {
+    group = 'com.ecomm'
+    version = '0.0.1-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+project(':api-gateway') {
+    apply plugin: 'org.springframework.boot'
+}
+
+project(':auth-service') {
+    apply plugin: 'org.springframework.boot'
+}
+
+project(':order-service') {
+    apply plugin: 'org.springframework.boot'
+}
+project(':product-service') {
+    apply plugin: 'org.springframework.boot'
+}
