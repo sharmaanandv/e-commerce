@@ -1,8 +1,10 @@
 package org.ecomm.order.domain;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 import java.math.BigDecimal;
 
@@ -12,8 +14,14 @@ import java.math.BigDecimal;
 public class Order {
 
     private Long id;
+    @ReadOnlyProperty
     private Long userId;
+
     private Long productId;
-    private Integer stock;
+
+    @NotBlank
+    private Integer quantity;
+
+    @NotBlank
     private BigDecimal totalAmount;
 }

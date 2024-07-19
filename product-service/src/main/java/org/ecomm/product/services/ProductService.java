@@ -1,6 +1,7 @@
 package org.ecomm.product.services;
 
 
+import com.ecomm.comms.exception.EcommException;
 import org.ecomm.product.domain.CreateProduct;
 import org.ecomm.product.domain.Product;
 import org.ecomm.product.domain.UpdateProduct;
@@ -49,7 +50,7 @@ public class ProductService {
             ProductEntity product = productRepository.save(productEntity.get());
             return productMappers.toProduct(product);
         }
-        throw new RuntimeException("Product not found");
+        throw new EcommException("Product not found");
     }
 
     public void deleteById(Long id) {
@@ -60,7 +61,7 @@ public class ProductService {
             productEntity.get().setDeleted(true);
             productRepository.save(productEntity.get());
         } else {
-            throw new RuntimeException("Product not found");
+            throw new EcommException("Product not found");
         }
     }
 }

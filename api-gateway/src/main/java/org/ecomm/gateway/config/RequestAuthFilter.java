@@ -1,5 +1,6 @@
 package org.ecomm.gateway.config;
 
+import com.ecomm.comms.exception.EcommException;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,6 @@ public class RequestAuthFilter extends AbstractGatewayFilterFactory<RequestAuthF
     }
 
     public static class Config {
-        // Put configuration properties here
     }
 
     @Override
@@ -37,18 +37,15 @@ public class RequestAuthFilter extends AbstractGatewayFilterFactory<RequestAuthF
         return (exchange, chain) -> {
             String path = exchange.getRequest().getURI().getPath();
 
-            // Skip token validation for paths starting with /public
             if (path.startsWith(skipTranslation)) {
-                //exchange.getRequest().mutate().headers(httpHeaders -> httpHeaders.remove(HttpHeaders.AUTHORIZATION)).build();
                 return chain.filter(exchange);
             }
 
             // For other paths, continue with the chain
-            //return chain.filter(exchange);
             String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                return Mono.error(new RuntimeException("Missing or invalid Authorization header"));
+                return Mono.error(new EcommException("Missing or invalid Authorization header"));
             }
 
             String token = authHeader.substring(7);
@@ -60,9 +57,10 @@ public class RequestAuthFilter extends AbstractGatewayFilterFactory<RequestAuthF
                     .bodyToMono(UserInfo.class)
                     .flatMap(userInfo -> {
                         exchange.getRequest().mutate().header("X-User-Id", userInfo.getId());
+                        exchange.getRequest().mutate().header("X-User-Name", userInfo.getUsername());
                         return chain.filter(exchange);
                     })
-                    .onErrorResume(e -> Mono.error(new RuntimeException("Invalid Token")));
+                    .onErrorResume(e -> Mono.error(new EcommException("Invalid Token")));
         };
     }
 

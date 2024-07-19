@@ -22,7 +22,7 @@ public class OrderEntity {
     private Long id;
     private Long userId;
     private Long productId;
-    private Integer stock;
+    private Integer quantity;
     private BigDecimal totalAmount;
     private LocalDateTime orderDate;
 

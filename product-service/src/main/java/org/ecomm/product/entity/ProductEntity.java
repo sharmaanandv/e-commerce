@@ -3,7 +3,6 @@ package org.ecomm.product.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
-
 import java.math.BigDecimal;
 
 @Table(name = "product")
@@ -27,7 +26,6 @@ public class ProductEntity {
     private Long version;
 
     private boolean isDeleted;
-
 
 }
 

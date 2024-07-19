@@ -7,5 +7,3 @@ echo "Building all modules..."
 ./gradlew :auth-service:build
 ./gradlew :order-service:build
 ./gradlew :product-service:build
-
-docker-compose up

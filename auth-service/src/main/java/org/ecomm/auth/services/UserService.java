@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
         if (user.isEmpty()) {
             userRepository.save(UserEntity.builder().username(createUser.getUsername()).password(createUser.getPassword()).roles(roles).build());
         } else {
-            throw new RuntimeException("User Already Present");
+            throw new EcommException("User Already Present");
         }
     }
 
