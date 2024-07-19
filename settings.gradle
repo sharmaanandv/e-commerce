@@ -1,7 +1,8 @@
 rootProject.name = 'e-comm'
+include 'commons'
 include 'api-gateway'
 include 'auth-service'
 include 'order-service'
 include 'product-service'
-include 'commons'
+
 

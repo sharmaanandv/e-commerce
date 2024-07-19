@@ -27,17 +27,3 @@ subprojects {
         useJUnitPlatform()
     }
 }
-project(':api-gateway') {
-    apply plugin: 'org.springframework.boot'
-}
-
-project(':auth-service') {
-    apply plugin: 'org.springframework.boot'
-}
-
-project(':order-service') {
-    apply plugin: 'org.springframework.boot'
-}
-project(':product-service') {
-    apply plugin: 'org.springframework.boot'
-}

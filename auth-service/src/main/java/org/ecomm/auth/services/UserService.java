@@ -44,7 +44,7 @@ public class UserService implements UserDetailsService {
         String username = jwtUtil.extractUsername(token);
         Optional<UserEntity> user = userRepository.findByUsername(username);
         if (user.isPresent()) {
-            return UserInfo.builder().id(user.get().getId()).username(username).build();
+            return new UserInfo(user.get().getId(), username);
         }
         throw new EcommException("User not found");
     }

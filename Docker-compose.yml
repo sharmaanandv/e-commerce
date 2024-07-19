@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   api-gateway:
     build: ./api-gateway
@@ -17,14 +17,14 @@ services:
     ports:
       - "8083:8083"
 
-  load-balancer:
-    image: "dockercloud/haproxy"
-    links:
-      - api-gateway
-      - auth-service
-      - product-service
-      - order-service
-    ports:
-      - "80:80"
-    environment:
-      - BALANCE=roundrobin
+#  load-balancer:
+#    image: "dockercloud/haproxy"
+#    links:
+#      - api-gateway
+#      - auth-service
+#      - product-service
+#      - order-service
+#    ports:
+#      - "80:80"
+#    environment:
+#      - BALANCE=roundrobin

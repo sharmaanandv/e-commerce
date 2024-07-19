@@ -5,16 +5,16 @@ spring:
     gateway:
       routes:
         - id: auth-service
-          uri: http://auth-service:8081
+          uri: http://localhost:8081
           predicates:
             - Path=/auth/**
         - id: order-service
-          uri: http://order-service:8082
+          uri: http://localhost:8082
           predicates:
             - Path=/order/**
 
         - id: product-service
-          uri: http://product-service:8083
+          uri: http://localhost:8083
           predicates:
             - Path=/product/**
 
@@ -42,7 +42,7 @@ server:
     context-path: /ecomm
 
 auth:
-  url: http://auth-service:8081/auth/v1/api/user/info/
+  url: http://localhost:8081/auth/v1/api/user/info/
 
 jwt:
   secret: 5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
