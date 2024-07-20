@@ -34,11 +34,13 @@ public class ProductService {
     }
 
     public Product findById(Long id) {
+        log.info("Finding product by Id {}", id);
         return productRepository.findById(id).map(productMappers::toProduct).orElse(null);
     }
 
     public Product createProduct(CreateProduct product) {
         log.debug("Creating product: {}", product);
+        validateProduct(product.getName());
         ProductEntity entity = productMappers.toEntity(product);
         entity.setVersion(1L);
         entity = productRepository.save(entity);
@@ -46,9 +48,16 @@ public class ProductService {
         return productMappers.toProduct(entity);
     }
 
+    private void validateProduct(String name) {
+        if (productRepository.existsByName(name).get()) {
+            throw new EcommException(HttpStatus.BAD_REQUEST, "Product already exists");
+        }
+    }
+
     @Transactional
     public Product updateProduct(UpdateProduct updateProduct) {
         log.debug("Updating Product: {}", updateProduct);
+        validateProduct(updateProduct.getName());
         Optional<ProductEntity> productEntity = productRepository.findById(updateProduct.getId());
         if (productEntity.isPresent()) {
             productEntity.get().setName(updateProduct.getName());

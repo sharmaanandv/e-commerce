@@ -2,7 +2,7 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:h2:mem:order
+    url: jdbc:h2:mem:ecommDb
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -21,5 +21,5 @@ server:
     context-path: /order
 
 product:
-  baseurl: http://product-service:8083
+  baseurl: http://product-service:8083/product
   get-by-id-url: /v1/api/products/

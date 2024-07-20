@@ -44,20 +44,20 @@ public class OrderService {
     }
 
     public List<Order> findAll() {
-        Principal principal = SecurityContext.getUserInfo();
+        Principal principal = SecurityContext.getPrincipal();
         // User can fetch only his orders
         return orderRepository.findByUserId(principal.getId()).stream().map(mappers::toOrder).collect(Collectors.toList());
     }
 
     public Order findById(Long id) {
-        Principal principal = SecurityContext.getUserInfo();
+        Principal principal = SecurityContext.getPrincipal();
         // User can fetch only his orders
         return orderRepository.findByIdAndUserId(id, principal.getId()).map(mappers::toOrder).orElseThrow(() -> new EcommException(HttpStatus.NOT_FOUND, "Order not found"));
     }
 
     public Order createOrder(CreateOrder createOrder) {
         log.debug("Order creating: {}", createOrder);
-        Principal principal = SecurityContext.getUserInfo();
+        Principal principal = SecurityContext.getPrincipal();
         verifyProductId(principal.getToken(), createOrder.getProductId());
         createOrder.setUserId(principal.getId());
         OrderEntity order = orderRepository.save(mappers.toOrderEntity(createOrder));
@@ -73,7 +73,7 @@ public class OrderService {
 
     public void deleteById(Long id) {
         log.debug("Deleting OrderId: {}", id);
-        Principal principal = SecurityContext.getUserInfo();
+        Principal principal = SecurityContext.getPrincipal();
         Optional<OrderEntity> orderEntity = orderRepository.findByIdAndUserId(id, principal.getId());
         if (orderEntity.isPresent()) {
             orderEntity.get().setDeleted(true);
@@ -86,6 +86,7 @@ public class OrderService {
 
     // Check with product-service if ID is correct
     private void verifyProductId(String token, Long productId) {
+        log.info("verifyProductId : {}", productId);
         String response = webClientBuilder.build()
                 .get()
                 .uri(productBaseUrl + productGetByIdUrl + productId).header("Authorization", token)
@@ -93,7 +94,7 @@ public class OrderService {
                 .onStatus(HttpStatusCode::isError, res ->
                         Mono.error(new WebClientResponseException(
                                 res.statusCode().value(),
-                                "Product not found",
+                                "ProductId not found",
                                 res.headers().asHttpHeaders(),
                                 null,
                                 null
@@ -101,7 +102,7 @@ public class OrderService {
                 )
                 .bodyToMono(String.class)
                 .block();
-        if (response.isBlank()) {
+        if (response == null || response.isBlank()) {
             throw new EcommException(HttpStatus.NOT_FOUND, "Product not found");
         }
 

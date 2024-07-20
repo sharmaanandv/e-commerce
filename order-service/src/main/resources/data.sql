@@ -11,6 +11,8 @@ CREATE TABLE orders (
 
 -- Populate Order table
 INSERT INTO orders (user_id, product_id, quantity, total_amount) VALUES
-(1, 1, 1, 999.99),
-(2, 2, 2, 1399.98),
-(3, 3, 1, 399.99);
+(1, 1, 10, 999.99),
+(1, 2, 20, 1399.98),
+(2, 3, 10, 399.99),
+(2, 3, 10, 399.99),
+(2, 3, 10, 399.99);

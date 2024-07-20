@@ -5,7 +5,8 @@ CREATE TABLE product (
     price DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL,
     version INT NOT NULL,
-    is_deleted BOOLEAN DEFAULT FALSE
+    is_deleted BOOLEAN DEFAULT FALSE,
+    UNIQUE (name)
 );
 
 -- Populate Product table

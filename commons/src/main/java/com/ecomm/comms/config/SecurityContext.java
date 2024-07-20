@@ -18,7 +18,7 @@ public class SecurityContext {
     public static final String X_USER_NAME = "X-User-Name";
     public static final String X_USER_TOKEN = "X-User-Token";
 
-    public static Principal getUserInfo() {
+    public static Principal getPrincipal() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         List<String> roles = Arrays.stream(request.getHeader(X_USER_ROLE).split(",")).collect(Collectors.toList());

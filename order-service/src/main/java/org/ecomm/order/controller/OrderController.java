@@ -32,9 +32,9 @@ public class OrderController {
         return orderService.findById(id);
     }
 
-    @RoleRequired("ROLE_ADMIN")
+    @RoleRequired("ROLE_USER")
     @PostMapping
-    public ResponseEntity<Order> create(@RequestBody CreateOrder createOrder) {
+    public ResponseEntity<Order> createOrder(@RequestBody CreateOrder createOrder) {
         Order order = orderService.createOrder(createOrder);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }

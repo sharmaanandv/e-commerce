@@ -57,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping
-    public ResponseEntity register(@RequestBody CreateUser createUser) {
+    public ResponseEntity CreateUser(@RequestBody CreateUser createUser) {
         userService.createUser(createUser.toBuilder().password(passwordEncoder.encode(createUser.getPassword())).build(), Roles.ROLE_USER.name());
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }

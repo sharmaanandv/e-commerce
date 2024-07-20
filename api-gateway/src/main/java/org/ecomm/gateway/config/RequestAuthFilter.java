@@ -13,14 +13,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Component
 public class RequestAuthFilter extends AbstractGatewayFilterFactory<RequestAuthFilter.Config> {
 
     @Value("${auth.url}")
     private String authUrl;
 
-    @Value("${jwt.skiptranslation}")
-    private String skipTranslation;
+    @Value("#{'${jwt.skiptranslation}'.split(',')}")
+    private List<String> skipTranslations;
 
     @Autowired
     private WebClient.Builder webClientBuilder;
@@ -43,7 +45,7 @@ public class RequestAuthFilter extends AbstractGatewayFilterFactory<RequestAuthF
             }*/
 
             // Skip token verification for public apis
-            if (path.startsWith(skipTranslation)) {
+            if (skipTranslations.stream().anyMatch(x -> path.startsWith(x))) {
                 return chain.filter(exchange);
             }
             // For other paths, continue with the chain
