@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+// This controller is public
 @RestController
 @RequestMapping("/v1/api/user")
 public class AuthController {
@@ -37,7 +38,7 @@ public class AuthController {
     }
 
     @GetMapping("/info/{token}")
-    public UserInfo getUserInfo(@PathVariable String token){
+    public UserInfo getUserInfo(@PathVariable String token) {
         return userService.getUserInfo(token);
     }
 
@@ -55,15 +56,9 @@ public class AuthController {
         return jwtUtil.generateToken(userDetails.getUsername());
     }
 
-    @PostMapping("/createuser")
+    @PostMapping
     public ResponseEntity register(@RequestBody CreateUser createUser) {
-        userService.createUser(createUser.toBuilder().password(passwordEncoder.encode(createUser.getPassword())).build(), Roles.USER.name());
-        return new ResponseEntity<>("OK", HttpStatus.OK);
-    }
-
-    @PostMapping("/createadmin")
-    public ResponseEntity createAdmin(@RequestBody CreateUser createUser) {
-        userService.createUser(createUser.toBuilder().password(passwordEncoder.encode(createUser.getPassword())).build(), Roles.ADMIN.name());
+        userService.createUser(createUser.toBuilder().password(passwordEncoder.encode(createUser.getPassword())).build(), Roles.ROLE_USER.name());
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 

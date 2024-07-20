@@ -120,30 +120,30 @@ resource "google_compute_url_map" "default" {
 }
 
 resource "google_compute_backend_service" "default" {
-  name                  = "backend-service"
-  port_name             = "http"
-  protocol              = "HTTP"
-  timeout_sec           = 10
+  name        = "backend-service"
+  port_name   = "http"
+  protocol    = "HTTP"
+  timeout_sec = 10
   connection_draining {
     draining_timeout_sec = 30
   }
 }
 
 resource "google_compute_target_http_proxy" "default" {
-  name   = "http-lb-proxy"
+  name    = "http-lb-proxy"
   url_map = google_compute_url_map.default.self_link
 }
 
 resource "google_compute_global_forwarding_rule" "default" {
-  name        = "http-rule"
-  ip_address  = google_compute_global_address.lb_ip.address
-  port_range  = "80"
-  target      = google_compute_target_http_proxy.default.self_link
+  name       = "http-rule"
+  ip_address = google_compute_global_address.lb_ip.address
+  port_range = "80"
+  target     = google_compute_target_http_proxy.default.self_link
 }
 
 resource "google_compute_backend_service" "api_gateway_backend" {
-  count    = length(var.regions)
-  name     = "api-gateway-backend-${element(var.regions, count.index)}"
+  count     = length(var.regions)
+  name      = "api-gateway-backend-${element(var.regions, count.index)}"
   port_name = "http"
   protocol  = "HTTP"
 
@@ -155,8 +155,8 @@ resource "google_compute_backend_service" "api_gateway_backend" {
 }
 
 resource "google_compute_backend_service" "auth_service_backend" {
-  count    = length(var.regions)
-  name     = "auth-service-backend-${element(var.regions, count.index)}"
+  count     = length(var.regions)
+  name      = "auth-service-backend-${element(var.regions, count.index)}"
   port_name = "http"
   protocol  = "HTTP"
 
@@ -168,8 +168,8 @@ resource "google_compute_backend_service" "auth_service_backend" {
 }
 
 resource "google_compute_backend_service" "order_service_backend" {
-  count    = length(var.regions)
-  name     = "order-service-backend-${element(var.regions, count.index)}"
+  count     = length(var.regions)
+  name      = "order-service-backend-${element(var.regions, count.index)}"
   port_name = "http"
   protocol  = "HTTP"
 
@@ -181,8 +181,8 @@ resource "google_compute_backend_service" "order_service_backend" {
 }
 
 resource "google_compute_backend_service" "product_service_backend" {
-  count    = length(var.regions)
-  name     = "product-service-backend-${element(var.regions, count.index)}"
+  count     = length(var.regions)
+  name      = "product-service-backend-${element(var.regions, count.index)}"
   port_name = "http"
   protocol  = "HTTP"
 

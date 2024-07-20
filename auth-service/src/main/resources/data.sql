@@ -7,8 +7,8 @@ CREATE TABLE users (
 );
 
 -- Populate User table
--- password is admin
+-- all passwords are admin
 INSERT INTO users (username, password, roles) VALUES
-('john', '$2a$10$yxEd4BkXTLISsiWZDSBioeZZozLFRDqqlarHxzPqSj7jBuvyfYG.u','user'),
-('admin', '$2a$10$yxEd4BkXTLISsiWZDSBioeZZozLFRDqqlarHxzPqSj7jBuvyfYG.u','admin'),
-('alice', '$2a$10$yxEd4BkXTLISsiWZDSBioeZZozLFRDqqlarHxzPqSj7jBuvyfYG.u','user,admin');
+('user', '$2a$10$yxEd4BkXTLISsiWZDSBioeZZozLFRDqqlarHxzPqSj7jBuvyfYG.u','ROLE_USER'),
+('admin', '$2a$10$yxEd4BkXTLISsiWZDSBioeZZozLFRDqqlarHxzPqSj7jBuvyfYG.u','ROLE_ADMIN'),
+('superuser', '$2a$10$yxEd4BkXTLISsiWZDSBioeZZozLFRDqqlarHxzPqSj7jBuvyfYG.u','ROLE_USER,ROLE_ADMIN');
