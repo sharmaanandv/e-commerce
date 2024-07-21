@@ -1,4 +1,4 @@
-rootProject.name = 'e-comm'
+rootProject.name = 'e-commerce'
 include 'commons'
 include 'api-gateway'
 include 'auth-service'
