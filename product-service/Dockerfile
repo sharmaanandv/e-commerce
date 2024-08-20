@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:22-jdk
 WORKDIR /app
 COPY build/libs/*.jar app.jar
 EXPOSE 8083
